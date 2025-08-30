@@ -29,7 +29,7 @@ app.use(loginRoutes)
 
 app.use((req, res, next) => {
   try{
-    let decoded = jwt.verify(req.cookies.token, "secret")
+    let decoded = jwt.verify(req.cookies.token, process.env.MY_SECRET)
     console.log(decoded)
     next()
   }
