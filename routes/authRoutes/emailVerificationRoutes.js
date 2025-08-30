@@ -1,13 +1,12 @@
 import express from 'express'
 import { client } from '../../dbConfig.js'
-import { sendEmail } from '../../config/emailVarification.js'
 import { ObjectId } from 'mongodb'
 
 const router = express.Router()
 const db = client.db("myEcommerce")
 const userColl = db.collection("user")
 
-router.post("/emailverification/:id", async (req, res) => {
+router.post("/user-emailverification/:id", async (req, res) => {
     let userId = new ObjectId(req.params.id)
     let findUser = await userColl.findOne(userId)
     if (!findUser) {

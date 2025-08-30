@@ -19,14 +19,23 @@ router.post('/order/:id', async (req, res) => {
         }
         let insert = await orderColl.insertOne(orderedProduct)
         if (insert) {
-            res.send("Inserted Successfully")
+            res.send({
+                status: 1,
+                message: "Inserted Successfully"
+            })
         }
         else {
-            res.send("Something Went Wrong")
+            res.send({
+                status: 0,
+                message: "Something Went Wrong"
+            })
         }
     }
     else{
-        res.send("Product Not Found")
+        res.send({
+            status: 0,
+            message: "Product Not Found"
+        })
     }
 
 })
@@ -38,7 +47,10 @@ router.get('/order', async (req, res) => {
         res.send(response)
     }
     else{
-        res.send("Products Not Found")
+        res.send({
+            status: 0,
+            message: "Product Not Found"
+        })
     }
 })
 
@@ -48,14 +60,23 @@ router.delete('/order/:id', async (req, res) => {
     if(findOrder){
         let deleteOrder = await orderColl.deleteOne(findOrder)
         if(deleteOrder){
-            res.send("Order Deleted Successfully")
+            res.send({
+                status: 1,
+                message: "Order Deleted Successfully"
+            })
         }
         else{
-            res.send("Something Went Wrong")
+            res.send({
+                status: 0,
+                message: "Something Went Wrong"
+            })
         }
     }
     else{
-        res.send("Order Not Found")
+        res.send({
+            status: 0,
+            message: "Order Not Found"
+        })
     }
 })
 
@@ -72,14 +93,23 @@ router.put('/order/:id', async (req, res) => {
             {}
         )
         if(updateOrder){
-            res.send("Order Updated Successfully")
+            res.send({
+                status: 1,
+                message: "Order Updated Successfully"
+            })
         }
         else{
-            res.send("Something Went Wrong")
+            res.send({
+                status: 0,
+                message: "Something Went Wrong"
+            })
         }
     }
     else{
-        res.send("Order Not Found")
+        res.send({
+            status: 0,
+            message: "Order Not Found"
+        })
     }
 })
 export default router

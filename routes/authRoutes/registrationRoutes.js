@@ -7,7 +7,7 @@ const router = express.Router()
 const db = client.db("myEcommerce")
 const userColl = db.collection("user")
 
-router.post("/register", async (req, res) => {
+router.post("/user-register", async (req, res) => {
     if (!req.body.firstName || !req.body.lastName || !req.body.email || !req.body.password || !req.body.phone) {
         return res.send("Please Fill Out All Fields")
     }

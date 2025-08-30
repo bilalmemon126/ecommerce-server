@@ -9,7 +9,7 @@ const db = client.db("myEcommerce")
 const userColl = db.collection("user")
 router.use(cookieParser())
 
-router.post("/login", async (req, res) => {
+router.post("/user-login", async (req, res) => {
     if (!req.body.email || !req.body.password) {
         return res.send({
             status: 0,
@@ -29,29 +29,37 @@ router.post("/login", async (req, res) => {
                 })
             }
             else {
-                let hashedPassword = await bcrypt.compareSync(req.body.password, checkUser.password);
-                if (!hashedPassword) {
+                if(!checkUser.isVarified){
                     return res.send({
                         status: 0,
-                        message: "Email or Password is Invalid"
+                        message: "User Not Verfied"
                     })
                 }
-                else {
-                    const token = await jwt.sign({
-                        firstName: req.body.firstName,
-                        email: checkUser.email
-                    }, 'secret', { expiresIn: "1h" })
-
-                    res.cookie("token", token, {
-                        maxAge: 3600000,
-                        httpOnly: true,
-                        secure: true
-                    })
-
-                    return res.send({
-                        status: 1,
-                        message: "Login Successfully"
-                    })
+                else{
+                    let hashedPassword = await bcrypt.compareSync(req.body.password, checkUser.password);
+                    if (!hashedPassword) {
+                        return res.send({
+                            status: 0,
+                            message: "Email or Password is Invalid"
+                        })
+                    }
+                    else {
+                        const token = await jwt.sign({
+                            firstName: req.body.firstName,
+                            email: checkUser.email
+                        }, 'secret', { expiresIn: "1h" })
+    
+                        res.cookie("token", token, {
+                            maxAge: 3600000,
+                            httpOnly: true,
+                            secure: true
+                        })
+    
+                        return res.send({
+                            status: 1,
+                            message: "Login Successfully"
+                        })
+                    }
                 }
             }
         }

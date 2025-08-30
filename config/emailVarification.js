@@ -6,7 +6,7 @@ dotenv.config()
 const transporter = nodemailer.createTransport({
     host: "smtp.gmail.com",
     port: 587,
-    secure: false, // upgrade later with STARTTLS
+    secure: false,
     auth: {
         user: process.env.EMAIL_USER,
         pass: process.env.EMAIL_PASS
@@ -14,14 +14,15 @@ const transporter = nodemailer.createTransport({
 });
 
 export const sendEmail = async (userEmail, verificationOtp) => {
-    const info = await transporter.sendMail({
-        from: `Bilal Memon <${process.env.EMAIL_USER}>`,
-        to: userEmail,
-        subject: "Verify Your Email",
-        text: verificationOtp,
-    })
-        .then((info) => {
-            console.log("Message sent: %s", info.messageId);
+    try{
+        const info = await transporter.sendMail({
+            from: `Bilal Memon <${process.env.EMAIL_USER}>`,
+            to: userEmail,
+            subject: "Verify Your Email",
+            text: verificationOtp,
         })
-        .catch(console.error);
+    }
+    catch(error){
+        console.log(error)
+    }; 
 }
